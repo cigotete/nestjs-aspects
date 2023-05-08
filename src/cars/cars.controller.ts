@@ -1,21 +1,18 @@
-import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
+import { CarsService, CarInterface } from './cars.service';
 
 @Controller('cars')
 export class CarsController {
-  private cars = ['Audi', 'BMW', 'Lada'];
+  constructor(private readonly carsService: CarsService) {}
 
   @Get()
-  getAllCars(): Array<string> {
-    return this.cars;
+  getAllCars(): Array<CarInterface> {
+    return this.carsService.findAll();
   }
 
   @Get(':id')
-  getCarById(@Param('id') id: string): string {
-    console.log('this.cars[+id]', this.cars[+id]);
-    const car = this.cars[+id];
-    if (!car) {
-      throw new NotFoundException(`Car with id ${id} not found`);
-    }
+  getCarById(@Param('id') id: number): CarInterface {
+    const car = this.carsService.findOneById(id);
     return car;
   }
 }
