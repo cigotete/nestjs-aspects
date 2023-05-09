@@ -24,7 +24,7 @@ export class CarsService implements CarInterface {
   }
 
   findOneById(id: number): CarInterface {
-    const itemWithId = this.cars.find((item) => item.id === +id);
+    const itemWithId = this.cars.find((item) => item.id === id);
     console.log('car with ID ' + id, itemWithId);
     if (!itemWithId) {
       throw new NotFoundException(`Item with ID ${id} not found`);
