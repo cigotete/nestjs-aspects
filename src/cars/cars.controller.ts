@@ -1,5 +1,6 @@
 import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
-import { CarsService, CarInterface } from './cars.service';
+import { CarsService } from './cars.service';
+import { CarInterface } from './interfaces/car.interface';
 
 @Controller('cars')
 export class CarsController {
