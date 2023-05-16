@@ -1,16 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CarInterface } from './interfaces/car.interface';
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class CarsService implements CarInterface {
-  id: number;
+  id: string;
   brand: string;
   model: string;
 
   private cars: CarInterface[] = [
-    { id: 1, brand: 'Audi', model: 'A4' },
-    { id: 2, brand: 'BMW', model: 'X5' },
-    { id: 3, brand: 'Lada', model: 'Vesta' },
+    { id: uuid(), brand: 'Audi', model: 'A4' },
+    { id: uuid(), brand: 'BMW', model: 'X5' },
+    { id: uuid(), brand: 'Lada', model: 'Vesta' },
   ];
 
   findAll(): Array<CarInterface> {
@@ -18,12 +19,22 @@ export class CarsService implements CarInterface {
     return this.cars;
   }
 
-  findOneById(id: number): CarInterface {
+  findOneById(id: string): CarInterface {
     const itemWithId = this.cars.find((item) => item.id === id);
     console.log('car with ID ' + id, itemWithId);
     if (!itemWithId) {
       throw new NotFoundException(`Item with ID ${id} not found`);
     }
     return itemWithId;
+  }
+
+  update(id: string, body: CarInterface): CarInterface {
+    const itemWithId = this.cars.find((item) => item.id === id);
+    if (!itemWithId) {
+      throw new NotFoundException(`Item with ID ${id} not found`);
+    }
+    const itemIndex = this.cars.findIndex((item) => item.id === id);
+    this.cars[itemIndex] = body;
+    return this.cars[itemIndex];
   }
 }

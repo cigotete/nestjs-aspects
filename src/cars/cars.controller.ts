@@ -1,4 +1,13 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { CarsService } from './cars.service';
 import { CarInterface } from './interfaces/car.interface';
 
@@ -12,8 +21,17 @@ export class CarsController {
   }
 
   @Get(':id')
-  getCarById(@Param('id', ParseIntPipe) id: number): CarInterface {
+  getCarById(@Param('id', ParseUUIDPipe) id: string): CarInterface {
     const car = this.carsService.findOneById(id);
+    return car;
+  }
+
+  @Patch(':id')
+  updateCar(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() body: CarInterface,
+  ) {
+    const car = this.carsService.update(id, body);
     return car;
   }
 }
