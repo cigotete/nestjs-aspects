@@ -38,7 +38,8 @@ export class CarsController {
     }),
   )*/ // Example of action-scoped pipe
   createCar(@Body() createCarDto: CreateCarDto) {
-    return { createCarDto };
+    const car = this.carsService.create(createCarDto);
+    return car;
   }
 
   @Patch(':id')
