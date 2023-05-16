@@ -15,6 +15,7 @@ import { CarInterface } from './interfaces/car.interface';
 import { CreateCarDto } from './dtos/create-car.dto';
 
 @Controller('cars')
+//@UsePipes(ValidationPipe) //Example of controller-scoped pipe
 export class CarsController {
   constructor(private readonly carsService: CarsService) {}
 
@@ -30,7 +31,12 @@ export class CarsController {
   }
 
   @Post()
-  @UsePipes(ValidationPipe)
+  /*@UsePipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  )*/ // Example of action-scoped pipe
   createCar(@Body() createCarDto: CreateCarDto) {
     return { createCarDto };
   }
