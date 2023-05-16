@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CarInterface } from './interfaces/car.interface';
 import { v4 as uuid } from 'uuid';
 import { CreateCarDto } from './dtos/create-car.dto';
+import { UpdateCarDto } from './dtos/update-car.dto';
 
 @Injectable()
 export class CarsService implements CarInterface {
@@ -39,13 +40,26 @@ export class CarsService implements CarInterface {
     return newCar;
   }
 
-  update(id: string, body: CarInterface): CarInterface {
-    const itemWithId = this.cars.find((item) => item.id === id);
-    if (!itemWithId) {
-      throw new NotFoundException(`Item with ID ${id} not found`);
+  update(id: string, body: UpdateCarDto): CarInterface {
+    let carWithId = this.findOneById(id);
+
+    if (body.id && body.id !== id) {
+      throw new NotFoundException(
+        `Param ID (${id}) and body ID (${body.id}) do not match`,
+      );
     }
-    const itemIndex = this.cars.findIndex((item) => item.id === id);
-    this.cars[itemIndex] = body;
-    return this.cars[itemIndex];
+
+    this.cars = this.cars.map((item) => {
+      if (item.id === id) {
+        carWithId = {
+          ...carWithId,
+          ...body,
+          id,
+        };
+        return carWithId;
+      }
+      return item;
+    });
+    return carWithId;
   }
 }

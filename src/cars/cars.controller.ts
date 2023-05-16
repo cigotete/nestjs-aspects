@@ -13,6 +13,7 @@ import {
 import { CarsService } from './cars.service';
 import { CarInterface } from './interfaces/car.interface';
 import { CreateCarDto } from './dtos/create-car.dto';
+import { UpdateCarDto } from './dtos/update-car.dto';
 
 @Controller('cars')
 //@UsePipes(ValidationPipe) //Example of controller-scoped pipe
@@ -45,9 +46,9 @@ export class CarsController {
   @Patch(':id')
   updateCar(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() body: CarInterface,
+    @Body() updateCarDto: UpdateCarDto,
   ) {
-    const car = this.carsService.update(id, body);
+    const car = this.carsService.update(id, updateCarDto);
     return car;
   }
 }
