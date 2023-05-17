@@ -30,7 +30,7 @@ export class CarsService implements CarInterface {
     return itemWithId;
   }
 
-  create( createCarDto: CreateCarDto ) {
+  create(createCarDto: CreateCarDto) {
     console.log('createCarDto', createCarDto);
     const newCar: CarInterface = {
       id: uuid(),
@@ -66,6 +66,6 @@ export class CarsService implements CarInterface {
   delete(id: string) {
     const carWithId = this.findOneById(id);
     this.cars = this.cars.filter((item) => item.id !== id);
-    return "Item deleted";
+    return 'Item deleted';
   }
 }
