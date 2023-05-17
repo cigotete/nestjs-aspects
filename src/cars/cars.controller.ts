@@ -51,4 +51,10 @@ export class CarsController {
     const car = this.carsService.update(id, updateCarDto);
     return car;
   }
+
+  @Delete(':id')
+  deleteCar(@Param('id', ParseUUIDPipe) id: string) {
+    const car = this.carsService.delete(id);
+    return car;
+  }
 }

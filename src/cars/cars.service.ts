@@ -62,4 +62,10 @@ export class CarsService implements CarInterface {
     });
     return carWithId;
   }
+
+  delete(id: string) {
+    const carWithId = this.findOneById(id);
+    this.cars = this.cars.filter((item) => item.id !== id);
+    return "Item deleted";
+  }
 }
