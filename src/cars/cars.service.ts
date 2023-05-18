@@ -11,9 +11,7 @@ export class CarsService implements CarInterface {
   model: string;
 
   private cars: CarInterface[] = [
-    { id: uuid(), brand: 'Audi', model: 'A4' },
-    { id: uuid(), brand: 'BMW', model: 'X5' },
-    { id: uuid(), brand: 'Lada', model: 'Vesta' },
+    //{ id: uuid(), brand: 'Audi', model: 'A4' }
   ];
 
   findAll(): Array<CarInterface> {
@@ -64,8 +62,11 @@ export class CarsService implements CarInterface {
   }
 
   delete(id: string) {
-    const carWithId = this.findOneById(id);
     this.cars = this.cars.filter((item) => item.id !== id);
     return 'Item deleted';
+  }
+
+  fillCarsFromSeed(cars: CarInterface[]) {
+    this.cars = cars;
   }
 }
